@@ -43,6 +43,8 @@ class SearchPage extends React.Component{
          */
         resp.forEach(b => {
           let f = this.state.books.filter(B => B.id === b.id);
+          // if the book is valid, the book from the response
+          // gets its shelf updated
           if(f[0]) {b.shelf = f[0].shelf};
         })
         return this.setState({results: resp});
