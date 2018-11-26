@@ -13,6 +13,7 @@ class SearchPage extends React.Component{
     };
   }
 
+  // get all the books in the API so we're ready to go
   componentDidMount(){
     BooksAPI.getAll()
     .then(resp => {
@@ -53,6 +54,12 @@ class SearchPage extends React.Component{
   }
 
   updateBookshelf = (book, shelf) => {
+    /* we get a promise, hence .then; when the promise is fulfilled...
+     * resp(onse) gets the book in question, sets the shelf appropriately
+     * the state is updated so that the book (in MainPage) added to whatever
+     * shelf is added to the books; prevents duplicates
+     * (can't have one book in two different shelves)
+     */
     BooksAPI.update(book, shelf)
     .then(resp => {
       book.shelf = shelf;
@@ -74,6 +81,8 @@ class SearchPage extends React.Component{
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
+          {/* get the results of the current state (SearchPage), and given */}
+          {/* the book and key values (based on API format), update bookshelf */}
             {this.state.results.map((book, key) => <Book updateBookshelf={this.updateBookshelf} book={book} key={key}/>)}
           </ol>
         </div>

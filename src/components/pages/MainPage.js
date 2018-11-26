@@ -6,6 +6,7 @@ import * as BooksAPI from '../../BooksAPI'
 class MainPage extends React.Component{
   constructor(props){
     super(props);
+    // books shown on the MainPage; books are on the shelves currently
     this.state = {
       books: []
     };
@@ -18,6 +19,12 @@ class MainPage extends React.Component{
     })
   }
 
+  /* we get a promise, hence .then; when the promise is fulfilled...
+   * resp(onse) gets the book in question, sets the shelf appropriately
+   * the state is updated so that the book (MainPage) added to whatever
+   * shelf is added to the books; prevents duplicates
+   * (can't have one book in two different shelves)
+   */
   updateBookshelf = (book, shelf) => {
     BooksAPI.update(book, shelf)
     .then(resp => {
