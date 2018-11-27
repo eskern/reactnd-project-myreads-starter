@@ -28,6 +28,7 @@ class SearchPage extends React.Component{
   submitSearch(){
     // just catching some pitfalls
     if(this.state.query === "" || this.state.query === undefined){
+      // return empty results list
       return this.setState({results: []});
     }
     BooksAPI.search(this.state.query.trim())
@@ -36,17 +37,11 @@ class SearchPage extends React.Component{
         return this.setState({results: []});
       }
       else{
-        /*
-         * b is the book from the response
-         * B is ultimately a single copy of b, preventing duplicates
-         * B registers if b is in an assigned shelf already
-         * bug ex: searching "linux"
-         */
         resp.forEach(b => {
-          let f = this.state.books.filter(B => B.id === b.id);
+          let newBooks = this.state.books.filter(B => B.id === b.id);
           // if the book is valid, the book from the response
           // gets its shelf updated
-          if(f[0]) {b.shelf = f[0].shelf};
+          if(newBooks[0]) {b.shelf = newBooks[0].shelf};
         })
         return this.setState({results: resp});
       }
